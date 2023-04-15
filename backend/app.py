@@ -1,6 +1,8 @@
 from flask import Flask
 import yfinance as yf
+from flask_cors import CORS
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/company/<ticker>')
 def getCompanyDetails(ticker: str)->dict:

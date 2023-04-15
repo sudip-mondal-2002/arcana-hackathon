@@ -1,29 +1,48 @@
-import {Container, TextField} from "@mui/material";
+import {Autocomplete, Container, TextField} from "@mui/material";
 import React, {useState} from "react";
 
 type SearchProps = {
     placeholder?: string,
-    list: string[]
+    list: string[],
+    onChange: (value: string) => void
 }
 
-export const Search = ({list, placeholder}: SearchProps) => {
+export const Search = ({list, placeholder, onChange}: SearchProps) => {
     const [searchList, setSearchList] = useState([...list]);
     const [searchText, setSearchText] = useState("");
-    const handlePromptChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchText(event.target.value);
-    };
 
     React.useEffect(() => {
-        if (searchText === "") {
+        if (!searchText) {
             setSearchList([...list]);
         } else {
             setSearchList(list.filter((item) => item.includes(searchText)));
         }
-    }, [searchText]);
+    }, [list, searchText]);
 
     return <Container maxWidth={false} sx={{
         display: 'inline'
     }}>
-        <TextField label="Search" variant="outlined" onChange={handlePromptChange}/>
+        <Autocomplete
+            renderInput={(params) => <TextField
+                {...params}
+                label="Search"
+                variant="outlined"
+                placeholder={placeholder}
+                inputProps={{
+                    ...params.inputProps,
+                    type: 'search'
+                }}/>
+            }
+            options={searchList}
+            sx={{width: 300}}
+            freeSolo={true}
+            disableClearable={true}
+            onChange={(event, value) => {
+                onChange(value)
+                setSearchText(value);
+            }}
+            value={searchText}
+            onClose={()=>setSearchText("")}
+        />
     </Container>
 }
