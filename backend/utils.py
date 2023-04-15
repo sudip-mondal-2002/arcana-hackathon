@@ -1,3 +1,4 @@
+import json
 import yfinance as yf
 def getCompanyDetails(ticker: str)->dict:
     """
@@ -6,8 +7,5 @@ def getCompanyDetails(ticker: str)->dict:
     company = yf.Ticker(ticker)
     return company.info
 
-def run_sentiment_analysis(ticker: str)->dict:
-    """
-    Returns a map of of sentiment scores
-    """
+def get_all_transcript_sentiments(TICKERS_LIST):
     

@@ -9,6 +9,7 @@ Original file is located at
 
 # Commented out IPython magic to ensure Python compatibility.
 import sys
+import os
 from bs4 import BeautifulSoup
 from datetime import datetime
 import requests
@@ -27,10 +28,9 @@ from datetime import timedelta
 
 # %matplotlib inline
 
-dir="/workspaces/arcana-hackathon/backend/dataset/2022_1.json"
-loughram_dir="/workspaces/arcana-hackathon/backend/dataset/master_dict.csv"
-
-def get_sent(dir, loughram_dir):
+# dir="/workspaces/arcana-hackathon/backend/dataset/2022_1.json"
+# loughram_dir="/workspaces/arcana-hackathon/backend/dataset/master_dict.csv"
+def get_sent(dir, loughram_dir="/workspaces/arcana-hackathon/backend/dataset/master_dict.csv"):
     df = pd.read_json(dir, orient ='index', convert_axes=False)
 
     np_array=df.to_numpy()
@@ -55,8 +55,6 @@ def get_sent(dir, loughram_dir):
         return cleantext
 
     df["content"]=df["content"].apply(cleanhtml)
-
-    df["content"]
 
     additional_stop_words = ['hi', 'earning', 'conference', 'speaker', 'analyst', 'operator', 'welcome', \
                             'think', 'cost', 'result', 'primarily', 'overall', 'line', 'general', \
@@ -103,10 +101,7 @@ def get_sent(dir, loughram_dir):
 
     df["cleaned_content"]=df["content"].apply(get_cleaned_word_list)
 
-    df["cleaned_content"][0]
-
     tfidf_vectorizer = TfidfVectorizer(smooth_idf=True,use_idf=True, min_df=0.025)
-
 
     sentiments = ['negative', 'positive', 'uncertainty', 'litigious', 'constraining']
 
@@ -129,10 +124,11 @@ def get_sent(dir, loughram_dir):
 
     # Apply the same preprocessing to these words as the 10-k words
     sentiment_df = sentiment_df.drop_duplicates('lemma')
-    print(f'after drop_duplicates sentiment_df.shape {sentiment_df.shape}')
-    print()
-    print(f'sentiment_df[sentiments].sum()-->\n{sentiment_df[sentiments].sum()}')
-    print('shape is sentiment * words i.e. rows will have sentiment classification and columns are list of words with those sentiments')
+    # print(f'after drop_duplicates sentiment_df.shape {sentiment_df.shape}')
+    # print()
+    # print(f'sentiment_df[sentiments].sum()-->\n{sentiment_df[sentiments].sum()}')
+    # print('shape is sentiment * words i.e. rows will have sentiment classification and columns are list of words with those sentiments')
+    # print("*******************************")
 
     df = df.reindex(columns= df.columns.to_list() + sentiments)
 
@@ -156,11 +152,48 @@ def get_sent(dir, loughram_dir):
         sentiment_vectorizer.fit(sentiment_words)
         df[sentiment] = df.apply(get_sentiment_info, args=(sentiment_vectorizer, ), axis=1)
 
-    print("*******************************")
 
     data = df[sentiments].to_dict()
     res = {}
     for key in data:
         res[key] = data[key][0]
+
+    return res
+
+def get_sent_from_ticker(TICKER):
+    CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+    """
+        Returns the sentiment map as following dict format
+        {
+            "2022":{
+                "1":{"..."},
+                "2":{"..."},
+                "3":{"..."}
+            },
+            "2023":{
+                "1":{"..."},
+                "2":{"..."}
+            }
+        }
+    """
+    tickers = os.listdir('./dataset/FMP')
+    if TICKER not in tickers:
+        print("NOT FOUND")
+
+    years = os.listdir(f'{CURRENT_DIR}/dataset/FMP/{TICKER}')
+
+    res = {}
+    for year in years:
+        print(year)
+        res[year] = {}
+        quaters = os.listdir(f'{CURRENT_DIR}/dataset/FMP/{TICKER}/{year}')
+        for quater_report in quaters:
+            path = f'./dataset/FMP/{TICKER}/{year}/{quater_report}'
+            q = quater_report.replace('.', '_').split('_')
+            print(path)
+            if len(q) > 2:
+                res[year][q[1]] = get_sent(path)
+            else:
+                res[year][q[0]] = get_sent(path)
 
     return res
