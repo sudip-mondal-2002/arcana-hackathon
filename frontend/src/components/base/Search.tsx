@@ -19,8 +19,9 @@ export const Search = ({list, placeholder, onChange}: SearchProps) => {
         }
     }, [list, searchText]);
 
-    return <Container maxWidth={false} sx={{
-        display: 'inline'
+    return <Container sx={{
+        marginTop: "50px",
+        marginBottom: "10px"
     }}>
         <Autocomplete
             renderInput={(params) => <TextField
@@ -28,6 +29,9 @@ export const Search = ({list, placeholder, onChange}: SearchProps) => {
                 label="Search"
                 variant="outlined"
                 placeholder={placeholder}
+                sx={{
+                    width: "80vw"
+                }}
                 inputProps={{
                     ...params.inputProps,
                     type: 'search'
@@ -42,7 +46,9 @@ export const Search = ({list, placeholder, onChange}: SearchProps) => {
                 setSearchText(value);
             }}
             value={searchText}
-            onClose={()=>setSearchText("")}
+            onClose={() => {
+                setSearchText("")
+            }}
         />
     </Container>
 }

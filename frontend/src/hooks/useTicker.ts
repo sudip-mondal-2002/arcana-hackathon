@@ -17,7 +17,6 @@ export const useTicker = () => {
     const getCompany = async (ticker: string) => {
         if (!ticker) return null
         const res = await Axios.get(`http://localhost:5000/company/${ticker}`)
-        console.log(res)
         return res.data as CompanyDTO
     }
 
