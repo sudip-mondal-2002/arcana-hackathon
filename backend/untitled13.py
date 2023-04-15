@@ -27,7 +27,7 @@ from datetime import timedelta
 
 # %matplotlib inline
 
-dir="/dataset/2022_1.json"
+dir="./dataset/2022_1.json"
 loughram_dir="./dataset/master_dict.csv"
 
 df = pd.read_json(dir, orient ='index', convert_axes=False)
@@ -56,7 +56,7 @@ def cleanhtml(raw_html):
 
 df["content"]=df["content"].apply(cleanhtml)
 
-pd.set_option('max_colwidth', -1)
+#pd.set_option('max_colwidth', -1)
 df["content"]
 
 additional_stop_words = ['hi', 'earning', 'conference', 'speaker', 'analyst', 'operator', 'welcome', \
