@@ -37,8 +37,6 @@ def get_sent(dir, loughram_dir="/workspaces/arcana-hackathon/backend/dataset/mas
     np_array=np_array.transpose()
     df=pd.DataFrame(np_array)
 
-    df
-
     df.columns=["ticker", "quarter", "year", "date", "content"]
 
     spacy_model = 'en_core_web_sm'
@@ -110,9 +108,9 @@ def get_sent(dir, loughram_dir="/workspaces/arcana-hackathon/backend/dataset/mas
 
     sentiment_df = sentiment_df[['negative', 'positive', 'uncertainty', 'litigious', 'constraining','word']]
     sentiment_df[sentiments] = sentiment_df[sentiments].astype(bool)
-    print(f'before any sentiment_df.shape {sentiment_df.shape}')
+    # print(f'before any sentiment_df.shape {sentiment_df.shape}')
     sentiment_df=sentiment_df.loc[(sentiment_df['negative']+sentiment_df['positive']+sentiment_df['uncertainty']+sentiment_df['litigious']+sentiment_df['constraining']>0)]
-    print(f'after any sentiment_df.shape {sentiment_df.shape}')
+    # print(f'after any sentiment_df.shape {sentiment_df.shape}')
 
     word_list = nlp(" ".join(sentiment_df['word'].str.lower()))
     word_lemmas = []
@@ -186,14 +184,20 @@ def get_sent_from_ticker(TICKER):
     for year in years:
         print(year)
         res[year] = {}
-        quaters = os.listdir(f'{CURRENT_DIR}/dataset/FMP/{TICKER}/{year}')
+        try:
+            quaters = os.listdir(f'{CURRENT_DIR}/dataset/FMP/{TICKER}/{year}')
+        except:
+            continue
         for quater_report in quaters:
             path = f'./dataset/FMP/{TICKER}/{year}/{quater_report}'
             q = quater_report.replace('.', '_').split('_')
             print(path)
-            if len(q) > 2:
-                res[year][q[1]] = get_sent(path)
-            else:
-                res[year][q[0]] = get_sent(path)
+            try:
+                if len(q) > 2:
+                    res[year][q[1]] = get_sent(path)
+                else:
+                    res[year][q[0]] = get_sent(path)
+            except:
+                continue
 
     return res
