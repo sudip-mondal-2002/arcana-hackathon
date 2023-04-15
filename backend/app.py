@@ -36,6 +36,9 @@ def getCompanyDetails(ticker: str)->dict:
     sentiment_score_nom = 0
     sentiment_score_denom = 0
     news_to_return = []
+    positives = 0
+    negatives = 0
+    neutrals = 0
     for n in news:
         result = classifier(n[1])[0]
         news_to_return.append({
@@ -44,15 +47,28 @@ def getCompanyDetails(ticker: str)->dict:
             "sentiment": result["label"]
         })
         if result['label'] == 'positive':
-            sentiment_score_nom += result["score"]**3
+            positives +=1
         elif result['label'] == 'negative':
-            sentiment_score_nom -= result["score"]**3
-        sentiment_score_denom += result["score"]
-    sentiment_score = (sentiment_score_nom/sentiment_score_denom)**0.5
+            negatives +=1
+        else:
+            neutrals +=1
+    for n in news:
+        result = classifier(n[1])[0]
+        if result['label'] == 'positive':
+            sentiment_score_nom += result['score']*positives
+            sentiment_score_denom += positives
+        elif result['label'] == 'negative':
+            sentiment_score_nom -= result['score']*negatives
+            sentiment_score_denom += negatives
+        else:
+            sentiment_score_denom += neutrals
+    
+    sentiment_score = (sentiment_score_nom/sentiment_score_denom)
+    sentiment_score = abs(sentiment_score)
     return {
         "info": info,
         "officers": officers,
-        # "history": history,
+        "history": history,
         "sentiment": sentiment_score,
         "news": news_to_return
     }
