@@ -28,6 +28,9 @@ Youtube Walkthrough Link: https://github.com/sudip-mondal-2002/arcana-hackathon/
 │   ├── utils.py          
 ```
 sentiment.py:
+
 The model goes over the json file content, removes stop words, lemmatizes the text. Tf-Idf vectorizer is run over all the keywords. Lougran McDonald master dictionary is used to categorize the words into [positive, negative, constraining, litigious,uncertainty]. The count is used for giving a score for each of the sentiment listed.
+
+
 Pretrained Financial Roberta-NLP model is used for generating sentiment scores for each of the json file.
 Both of the above model are used for analysing the sentiment of a stock at the particular quarter.
