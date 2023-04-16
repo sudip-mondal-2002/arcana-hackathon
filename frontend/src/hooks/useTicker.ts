@@ -1,4 +1,9 @@
 import Axios from "axios";
+export type NEWS = {
+    title: string,
+    summary: string,
+    sentiment: "positive" | "negative" | "neutral"
+}
 
 export type CompanyDTO = {
     info: {
@@ -10,7 +15,9 @@ export type CompanyDTO = {
     officers: {
         [key: string]: string
     },
-    history: number[]
+    history: number[],
+    sentiment: number,
+    news: NEWS[]
 }
 
 export const useTicker = () => {
