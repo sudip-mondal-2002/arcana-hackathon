@@ -32,7 +32,10 @@ docopt
 docutils
 entrypoints
 executing
+feedparser
 filelock
+flask
+flask-cors
 fonttools
 gensim
 httplib2
@@ -137,7 +140,7 @@ service-identity
 setproctitle
 simplejson
 six
-sklearn
+scikit-learn
 smart-open
 sos
 soupsieve
@@ -171,5 +174,6 @@ wcwidth
 widgetsnbextension
 word2number
 xonsh
+yfinance
 zipp
 zope.interface
