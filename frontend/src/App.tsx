@@ -1,12 +1,18 @@
 import React from 'react';
 import {Search} from "./components/base/Search";
+import StockNames from "./data/StockNames.json";
+import {Company} from "./components/composite/Company";
 
 function App() {
-  return (
-    <div>
-      <Search list={["a", "b", "c"]} placeholder={"Search"} />
-    </div>
-  );
+    const [ticker, setTicker] = React.useState<string>("");
+    return (
+        <div>
+            <Search list={StockNames} placeholder={"Search"} onChange={(v) => {
+                setTicker(v);
+            }}/>
+            <Company ticker={ticker}/>
+        </div>
+    );
 }
 
 export default App;

@@ -1,0 +1,26 @@
+version: '3.8'
+
+networks:
+  arcana:
+    driver: bridge
+
+services:
+  frontend:
+    container_name: arcana-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    networks:
+      - arcana
+    ports:
+      - "3000:3000"
+
+  backend:
+    container_name: arcana-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    networks:
+      - arcana
+    ports:
+      - "5000:5000"
