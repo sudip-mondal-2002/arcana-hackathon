@@ -3,7 +3,7 @@
 
 Deployment Link: https://newbienate-musical-fortnight-5wwxqqvvq9277vp-3000.preview.app.github.dev/
 
-Youtube Walkthrough Link: https://github.com/sudip-mondal-2002/arcana-hackathon/
+Youtube Walkthrough Link: https://youtu.be/k5Jrz-wv4Ew
 
 ### Folder Structure
 ```
