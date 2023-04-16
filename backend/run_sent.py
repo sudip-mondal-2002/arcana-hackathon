@@ -13,7 +13,7 @@ except:
     pass
 counter = 0
 
-print(result)
+# print(result)
 
 for ticker in TICKERS_LIST:
     result[ticker] = get_sent_from_ticker(ticker)
