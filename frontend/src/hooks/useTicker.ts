@@ -5,6 +5,14 @@ export type NEWS = {
     sentiment: "positive" | "negative" | "neutral"
 }
 
+export type Transcript = {
+    constraining: number,
+    litigious: number,
+    negative: number,
+    positive: number,
+    uncertainty: number
+}
+
 export type CompanyDTO = {
     info: {
         name: string,
@@ -17,7 +25,8 @@ export type CompanyDTO = {
     },
     history: number[],
     sentiment: number,
-    news: NEWS[]
+    news: NEWS[],
+    transcript: Transcript[]
 }
 
 export const useTicker = () => {

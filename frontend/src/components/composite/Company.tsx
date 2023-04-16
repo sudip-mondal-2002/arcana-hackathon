@@ -59,7 +59,7 @@ export const Company = ({ticker}: PriceChartProps) => {
         <hr/>
 
         <Typography>{companyDetails?.info.summary}</Typography>
-        <PriceChart data={companyDetails?.history || []}/>
+        <PriceChart data={companyDetails?.history || []} transcript = {companyDetails?.transcript || []}/>
         <div style={{
             display: "flex",
             justifyContent: "space-around",
@@ -77,11 +77,11 @@ export const Company = ({ticker}: PriceChartProps) => {
                     endColor="#0F0"
                     size={150}
                     strokeWidth={10}
+                    withSnail={true}
                     progress={((companyDetails?.sentiment || 0) + 1) * 50}
                 />
             </span>
-                {companyDetails?.sentiment &&
-                    <span>Market Sentiment: {companyDetails?.sentiment > 0.4 ? "Positive" : companyDetails?.sentiment < -0.4 ? "Negative" : "Neutral"}</span>}
+                    <span>Market Sentiment: {companyDetails?.sentiment||0 > 0.4 ? "Positive" : companyDetails?.sentiment||0 < -0.4 ? "Negative" : "Neutral"}</span>
             </span>
 
         </div>
