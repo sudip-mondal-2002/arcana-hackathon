@@ -2,6 +2,7 @@ from flask import Flask
 import yfinance as yf
 from flask_cors import CORS
 from transformers import pipeline
+from utils import get_transcript_sent
 import feedparser
 
 app = Flask(__name__)
@@ -24,7 +25,6 @@ def getCompanyDetails(ticker: str)->dict:
     officers = {}
     for i in company.info["companyOfficers"]:
         officers[i["title"]] = i["name"]
-    history = company.history(period="max").to_dict("list")["Close"]
 
     news_url = f"https://feeds.finance.yahoo.com/rss/2.0/headline?s={ticker}&region=US&lang=en-US"
     news_feed = feedparser.parse(news_url)
@@ -65,12 +65,27 @@ def getCompanyDetails(ticker: str)->dict:
     
     sentiment_score = (sentiment_score_nom/sentiment_score_denom)
     sentiment_score = abs(sentiment_score)
+
+    transcript_analysis = get_transcript_sent(ticker)
+    if ".DS_Store" in transcript_analysis:
+        transcript_analysis.__delitem__(".DS_Store")
+    oldest = min(transcript_analysis)
+    history = company.history(start=oldest+"-01-01").to_dict("list")["Close"]
+    transcript_result = []
+    transcript_years = list(transcript_analysis.keys())
+    transcript_years.sort()
+    for i in transcript_years:
+        for j in transcript_analysis[i]:
+            transcript_result.append(transcript_analysis[i][j])
+
+
     return {
         "info": info,
         "officers": officers,
         "history": history,
         "sentiment": sentiment_score,
-        "news": news_to_return
+        "news": news_to_return,
+        "transcript": transcript_result
     }
 
 

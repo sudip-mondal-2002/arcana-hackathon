@@ -21,7 +21,6 @@ import spacy
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 import gensim
-from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from pandas_datareader import data as pdr
 from datetime import timedelta

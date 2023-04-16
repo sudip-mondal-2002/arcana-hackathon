@@ -170,7 +170,6 @@ wasabi
 wcwidth
 widgetsnbextension
 word2number
-wordcloud
 xonsh
 zipp
 zope.interface
