@@ -32,7 +32,7 @@ export type CompanyDTO = {
 export const useTicker = () => {
     const getCompany = async (ticker: string) => {
         if (!ticker) return null
-        const res = await Axios.get(`http://localhost:5000/company/${ticker}`)
+        const res = await Axios.get(`http://backend:5000/company/${ticker}`)
         return res.data as CompanyDTO
     }
 
