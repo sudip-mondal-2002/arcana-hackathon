@@ -5,7 +5,7 @@ export type NEWS = {
     sentiment: "positive" | "negative" | "neutral"
 }
 
-export type CompanyDTO = {w
+export type CompanyDTO = {
     info: {
         name: string,
         country: string,
