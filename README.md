@@ -36,6 +36,8 @@ NLP Methods used:
 
 # Proposed feature additions:
 > Due to time constraints we limited our features, but brinstromed into some more addition that we'd like to share.
+
+1. **Scraping 10K, 10Q, 8K textual filings** to extract key metrics (from SEC EDGAR's Database) : SEC Filings are 100s of pages long report, if a dashboard can give such concise insights and extract metrics from text such as CAC, Growth, R&D costs etc, then a substancial stock reseach time is reduced. Have worked on it before as a project but not able to impliment. The process includes scraping SEC filings as HTML, parsing to JSON, and using NER & Roberta to find numerical metrics from textual data. All based on open-source tools without any paid-api for SEC EDGAR's database.
 1. Social Media Sentiments: **Social Media** recently has shown considerable influence on stock markets, events going viral on socials shall be considered as valuable insights. For the same, twitter, reddit etc apis, can be used to scrape relevent tweets and priority or possibly big impact negative/positive events may be shown to the user. Also like news sentiment score, social sentiment score can be associated to each stock. **Scrapping Forums**(e.g. moneycontrol dforum) apart from socials may be a great addition to this feature. 
 2. Portfolio Management: Stock brokers such as Zerodha, Upstox come up with their own APIs, which may be used to sell, buy, track users checklists and stocks in demat, holdings etc. Such details can be acccessed by allowing users to login with such brokers. 
 3. Embed PowerBI Apps in the dashboard for giving detailed analysis tools.
